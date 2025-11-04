@@ -54,6 +54,5 @@ resides::
 	WorkingDirectory=/local/systems/bin
 	Restart=always
 
-Then reload systemd's services with ``systemctl daemon-reload``, after which
-you can start the service with ``systemctl start
-ohdear-health-check.service``.
+Then reload Systemd's services with ``systemctl daemon-reload``, after which
+you can start the service with ``systemctl start ohdear-health-check.service``.
