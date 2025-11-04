@@ -4,15 +4,29 @@ OhDear Health Check
 This tool acts as the "Health Report URL" endpoint for the "Application
 health" monitor for `OhDear <https://ohdear.app/>`_.
 
-It will listen on port ``8991`` by default and can be configure with the
-``ohdear-health.yaml`` configuration file that is being read from the current
-working directory.
+It will listen on port ``8991`` by default, but you must configure the service
+first.
 
 Configuration
 ~~~~~~~~~~~~~
 
-In this file, you can configure the Warning and Error thresholds for the
-``LoadAverage``, ``MemoryUsagePercent`` and ``DiskUsagePercent`` checks. The
+Configuration is done in the ``ohdear-health.yaml`` configuration file, which
+should be placed in the current working directory.
+
+An example configuration file is provided in the Git repository.
+
+In the ``Core`` section you can configure a different port to listen on. You
+must also match the ``Secret`` value with ``Health Report Secret`` value in
+the OhDear interface under ``Application health check results``.
+
+Such a configuration could look like::
+
+	Core:
+	  Listen: ":8991"
+	  Secret: "y5wns4d5gsdt"
+
+You can also configure the ``Warning`` and ``Error`` thresholds for the
+``LoadAverage``, ``MemoryUsagePercent``, and ``DiskUsagePercent`` checks. The
 Load Average is the 5 minute load average, and the configuration for
 ``MemoryUsagePercent`` and ``DiskUsagePercent`` is in percent (range: 0-100).
 
