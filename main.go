@@ -205,7 +205,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	CheckPartitions(&checkResults, disk_usage_limits)
 	CheckLoad(&checkResults, load_avg_limits)
-	CheckMemory(&checkResults, disk_usage_limits)
+	CheckMemory(&checkResults, mem_usage_limits)
 	CheckTcpServices(&checkResults, tcp_services)
 
 	report := HealthCheckResult{FinishedAt: time.Now().Unix(), CheckResults: checkResults}
