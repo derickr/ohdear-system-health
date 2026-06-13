@@ -1,0 +1,41 @@
+name: Release
+
+# Manually triggered from the Actions tab. Builds the binary with `make all`
+# and publishes it as an asset on a new GitHub Release.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release tag (e.g. v1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build
+        run: make all
+
+      - name: Stage binary
+        run: cp ohdear-system-health ohdear-system-health-linux-amd64
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ inputs.version }}" \
+            ohdear-system-health-linux-amd64 \
+            --repo "${{ github.repository }}" \
+            --title "${{ inputs.version }}" \
+            --generate-notes
