@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -30,12 +30,16 @@ jobs:
       - name: Stage binary
         run: cp ohdear-system-health ohdear-system-health-linux-amd64
 
+      - name: Generate SHA-512 checksum
+        run: sha512sum ohdear-system-health-linux-amd64 > ohdear-system-health-linux-amd64.sha512
+
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "${{ inputs.version }}" \
             ohdear-system-health-linux-amd64 \
+            ohdear-system-health-linux-amd64.sha512 \
             --repo "${{ github.repository }}" \
             --title "${{ inputs.version }}" \
             --generate-notes
